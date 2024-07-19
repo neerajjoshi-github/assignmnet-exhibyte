@@ -48,7 +48,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, removeUser }) => {
                   {Object.entries(user.twubric).map(([key, value]) => (
                     <TableCell key={key}>{value}</TableCell>
                   ))}
-                  <TableCell>
+                  <TableCell className="whitespace-nowrap">
                     {format(fromUnixTime(user.join_date), "dd MMM - yyyy")}
                   </TableCell>
                   <TableCell>

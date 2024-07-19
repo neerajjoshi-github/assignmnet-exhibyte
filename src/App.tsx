@@ -3,6 +3,7 @@ import UsersTable from "./components/UsersTable";
 import type { DateRange } from "react-day-picker";
 import Filters from "./components/Filters";
 import { isDateWithinRange } from "./lib/isDateWithinRange";
+import GridView from "./components/GridView";
 
 export interface User {
   uid: number;
@@ -26,6 +27,7 @@ const App = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [sortBy, setSortBy] = useState("");
+  const [view, setView] = useState<"table" | "grid">("table");
   const [date, setDate] = useState<DateRange>({
     from: new Date(2008, 0, 1),
     to: new Date(),
@@ -68,8 +70,40 @@ const App = () => {
   }, [date, sortBy, users]);
 
   return (
-    <div className="flex flex-col gap-10 items-center p-10">
+    <div className="flex flex-col gap-10 items-center py-10 px-4 md:px-5 lg:px-10">
       <h1 className="text-6xl font-black">Twubric!</h1>
+      <div className="h-10 flex border border-border rounded-md overflow-hidden">
+        <input
+          value="grid"
+          type="radio"
+          name="view"
+          id="grid"
+          checked={view === "grid"}
+          className="sr-only peer/grid"
+          onChange={() => setView("grid")}
+        />
+        <label
+          htmlFor="grid"
+          className="peer-checked/grid:bg-secondary h-full flex items-center justify-center px-6 cursor-pointer"
+        >
+          Grid
+        </label>
+        <input
+          value="table"
+          type="radio"
+          name="view"
+          id="table"
+          checked={view === "table"}
+          className="sr-only peer/table"
+          onChange={() => setView("table")}
+        />
+        <label
+          htmlFor="table"
+          className="peer-checked/table:bg-secondary  h-full flex items-center justify-center px-6 cursor-pointer"
+        >
+          Table
+        </label>
+      </div>
       <div className="max-w-[1080px] w-full flex flex-col gap-8 items-center">
         <Filters
           sortBy={sortBy}
@@ -77,7 +111,11 @@ const App = () => {
           setDate={setDate}
           setSortBy={setSortBy}
         />
-        <UsersTable removeUser={removeUser} users={filteredUsers} />
+        {view === "table" ? (
+          <UsersTable removeUser={removeUser} users={filteredUsers} />
+        ) : (
+          <GridView removeUser={removeUser} users={filteredUsers} />
+        )}
       </div>
     </div>
   );

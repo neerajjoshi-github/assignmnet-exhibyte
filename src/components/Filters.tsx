@@ -57,10 +57,10 @@ const Filters: React.FC<FiltersProps> = ({
   setSortBy,
 }) => {
   return (
-    <div className="w-full flex gap-10 items-center justify-between">
+    <div className="w-full flex flex-col md:flex-row gap-10 items-center justify-between">
       <DatePicker date={date} setDate={setDate} />
       <Select value={sortBy} onValueChange={setSortBy}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[300px]">
           <SelectValue placeholder="Sort By" />
         </SelectTrigger>
         <SelectContent>
